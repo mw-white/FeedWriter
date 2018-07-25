@@ -43,6 +43,23 @@ $TestFeed->setLink('http://www.ajaxray.com/rss2/channel/about');
 $TestFeed->setDate(new DateTime());
 $TestFeed->setImage('https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/CommaFeed.svg/256px-CommaFeed.svg.png');
 
+//Try to get my base URL
+$url = "";
+if (isset($_SERVER['HTTPS']) && filter_var($_SERVER['HTTPS'], FILTER_VALIDATE_BOOLEAN))
+      $url .= 'https://';
+else
+    $url .= 'http://';
+
+if (isset($_SERVER['HTTP_HOST']))
+      $url .= $_SERVER['HTTP_HOST'];
+elseif (isset($_SERVER['SERVER_NAME']))
+      $url .= $_SERVER['SERVER_NAME'];
+else
+      $url = "";
+
+if ($url !== "") 
+  $TestFeed->setBase($url);
+
 //For other channel elements, use setChannelElement() function
 $TestFeed->setChannelElement('author', array('name'=>'Anis uddin Ahmad'));
 

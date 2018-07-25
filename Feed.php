@@ -77,6 +77,11 @@ abstract class Feed
     private $version       = null;
 
     /**
+    * Contains the base URL for this feed.
+    */
+    private $base       = null;
+
+    /**
      * Constructor
      *
      * If no version is given, a feed in RSS 2.0 format will be generated.
@@ -387,6 +392,19 @@ abstract class Feed
 
         $this->encoding = $encoding;
 
+        return $this;
+    }
+
+    /**
+    * Set the 'base' feed element
+    *
+    * @access   public
+    * @param    string $base value for feed base URL
+    * @return   self
+    */
+    public function setBase($base)
+    {
+        $this->base = $base;
         return $this;
     }
 
@@ -758,6 +776,9 @@ abstract class Feed
             $defaultNamespace = $this->namespaces['rss1'];
         } elseif ($this->version == Feed::ATOM) {
             $tagName = 'feed';
+            if (isset($this->base)) {
+                $attributes['xml:base'] = $this->base;
+            }
             $defaultNamespace = $this->namespaces['atom'];
 
             // Ugly hack to remove the 'atom' value from the prefixes array.
